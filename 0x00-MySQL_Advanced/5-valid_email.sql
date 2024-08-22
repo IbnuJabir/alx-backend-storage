@@ -1,13 +1,12 @@
 -- Create a trigger that decreases item quantity after adding a new order
 DELIMITER //
 
-CREATE TRIGGER valid_email_before_update
-BEFORE UPDATE ON users
+CREATE TRIGGER reset_valid_email
+BEFORE UPDATE ON email 
 FOR EACH ROW
 BEGIN
-    IF NEW.email NOT REGEXP '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$' THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid email';
+     IF OLD.email != NEW.email THEN
+        SET NEW.valid_email = 0;
     END IF;
 END;
 
