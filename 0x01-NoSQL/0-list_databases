@@ -1,3 +1,2 @@
 // my comment
-#!/bin/bash
-echo "show dbs" | mongo
+show databases
