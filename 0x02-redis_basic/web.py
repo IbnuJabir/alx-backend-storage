@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
+""" Redis Module """
+
 import redis
 import requests
 from typing import Callable
 from functools import wraps
+
 
 def count_requests(method: Callable) -> Callable:
     """Decorator to count how many times a URL is accessed."""
@@ -12,6 +16,7 @@ def count_requests(method: Callable) -> Callable:
         r.incr(count_key)
         return method(url)
     return wrapper
+
 
 @count_requests
 def get_page(url: str) -> str:
@@ -28,5 +33,5 @@ def get_page(url: str) -> str:
 
     # Cache the result with an expiration of 10 seconds
     r.setex(cache_key, 10, content)
-    
+
     return content
