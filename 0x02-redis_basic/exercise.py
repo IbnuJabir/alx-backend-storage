@@ -8,6 +8,8 @@ from functools import wraps
 '''
     Writing strings to Redis.
 '''
+
+
 def count_calls(method: Callable) -> Callable:
     '''
         Counts the number of times a method is called.
@@ -22,6 +24,7 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
+
 
 def call_history(method: Callable) -> Callable:
     """ Decorator to store the history of inputs and
@@ -41,6 +44,7 @@ def call_history(method: Callable) -> Callable:
 
     return wrapper
 
+
 def replay(method: Callable) -> None:
     """
     Replays the history of a function
@@ -58,6 +62,7 @@ def replay(method: Callable) -> None:
     for i, o in zip(inputs, outputs):
         print("{}(*{}) -> {}".format(name, i.decode('utf-8'),
                                      o.decode('utf-8')))
+
 
 class Cache:
     '''
@@ -79,7 +84,6 @@ class Cache:
         randomKey = str(uuid4())
         self._redis.set(randomKey, data)
         return randomKey
-
 
     def get(self, key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
