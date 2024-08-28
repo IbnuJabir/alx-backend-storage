@@ -31,6 +31,7 @@ class Cache:
         self._redis.set(randomKey, data)
         return randomKey
 
+
     def get(self, key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         '''
